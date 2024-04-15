@@ -1,0 +1,29 @@
+ALGORITHME TableVeriteEtFormesCanoniques
+    VARIABLES
+        expression: CHAINE
+        variables: CHAINE
+        valeurs_variables: TABLEAU DE ENTIER
+        table_verite: TABLEAU DE TABLEAU DE ENTIER
+        sop: CHAINE
+        pos: CHAINE
+        i, j: ENTIER
+
+    DEBUT
+        expression ← LIRE "Entrez la fonction booléenne (utilisez and, or, not, xor) : "
+        variables ← TrouverVariables(expression)
+        AFFICHER " | " CONCATENER variables CONCATENER " | Résultat"
+        
+        POUR i DE 0 JUSQU'A 2^(LONGUEUR(variables)) FAIRE
+            POUR j DE LONGUEUR(variables)-1 JUSQU'A 0 FAIRE
+                valeurs_variables[j] ← (i DIV (2^j)) MOD 2
+            FIN POUR
+            
+            table_verite[i] ← valeurs_variables + [EvaluerExpression(expression, valeurs_variables, variables)]
+            AFFICHER " | " CONCATENER valeurs_variables CONCATENER " | " CONCATENER table_verite[i][LONGUEUR(variables)] POUR j DE 0 JUSQU'A LONGUEUR(variables) - 1 FAIRE
+        FIN POUR
+
+        sop ← FormeSOP(variables, table_verite)
+        pos ← FormePOS(variables, table_verite)
+        AFFICHER "Forme SOP (Somme de Produits) : " CONCATENER sop
+        AFFICHER "Forme POS (Produit de Sommes) : " CONCATENER pos
+    FIN
